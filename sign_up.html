@@ -34,6 +34,7 @@
 </head>
 <body>
     <div class="form-wrapper">
+        <h1>注册</h1>
         <form action="" id="signUpForm">
             <div class="row">
                 <label for="">邮箱</label>
@@ -57,10 +58,11 @@
     </div>
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
     <script>
-        let hash = {}
+        
         $form = $('#signUpForm')
         $form.on('submit', (e)=>{
             e.preventDefault()
+            let hash = {}
             let need = ['email', 'password', 'password_confirmation']
             need.forEach((name)=>{
                 let value = $form.find(`[name=${name}]`).val()
@@ -93,7 +95,7 @@
                 let {errors}=request.responseJSON
                 console.log(errors)
                 if (errors.email && errors.email === 'invalid') {
-                    $form.find('[name="email"').siblings('.error')
+                    $form.find('[name="email"]').siblings('.error')
                         .text('邮箱格式错误')
                 }
             })

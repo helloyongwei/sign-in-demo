@@ -21,7 +21,7 @@ var server = http.createServer(function(request, response){
   console.log('含查询字符串的路径\n' + pathWithQuery)
 
   if(path === '/'){
-    let string = fs.readFileSync('./index.html', 'utf8')
+    let string = '请输入/sign_up的路由'
     response.statusCode = 200
     response.setHeader('Content-Type', 'text/html;charset=utf-8')
     response.write(string)
@@ -34,7 +34,6 @@ var server = http.createServer(function(request, response){
     response.end()
   } else if (path === '/sign_up' && method === 'POST') {
     readBody(request).then((body)=>{
-      console.log(body)
       let strings = body.split('&')
       let hash={} //hash存储key-value值
       strings.forEach((string)=>{
@@ -56,20 +55,18 @@ var server = http.createServer(function(request, response){
         }`)
       } else if (password !== password_confirmation) {
         response.statusCode = 400
+        response.setHeader('Content-Type', 'application/json;charset=utf-8')
         response.write(`{
 	        "password": "Not Match"
         }`)
       } else {
         response.statusCode = 200
       }
-      
+      response.end()
     })
-    
-    response.end()
   } else {
     response.statusCode = 404
-    response.setHeader('Content-Type', 'text/javascript;charset=utf-8')
-    let callback = query.callback
+    response.setHeader('Content-Type', 'text/html;charset=utf-8')
     response.write(`
       {
         "error": "Not Found"
@@ -95,5 +92,5 @@ function readBody(request) {
 }
 
 server.listen(port)
-console.log('监听 ' + port + ' 成功\n请在浏览器打开 http://localhost:' + port)
+console.log('监听 ' + port + ' 成功\n请在浏览器打开 http://localhost:' + port+'\n')
 
